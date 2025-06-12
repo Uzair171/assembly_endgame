@@ -34,8 +34,26 @@ export default function App(){
     return <button 
     key = {nanoid()}
     className="alphabet"
+    onClick={()=>onKeyDown(element)}
     >{element.toUpperCase()}</button>
   })
+
+  //storing guessed letter
+  const [guessed, setGuessed] = useState([])
+  function onKeyDown(value){
+    setGuessed(prevValue=>{
+      if(!prevValue.includes(value)){
+      return [...prevValue,
+      value] 
+      }else{
+        return prevValue
+      }
+    })
+  }
+ console.log(guessed)
+
+
+
 
   //main dom element
   return(
@@ -58,7 +76,7 @@ export default function App(){
       <section className="keyboard">
         {keyboard}
       </section>
-
+      <button className="new-game">New Game</button>
     </main>
   )
 }
