@@ -1,16 +1,30 @@
 import { languages} from "../language"
+import { useState } from "react"
+import { nanoid } from 'nanoid';
 
 
-const languagesElement = languages.map(element=>{
+
+
+export default function App(){
+
+  const languagesElement = languages.map((element,index)=>{
   return <span 
     className="code-lang"
+    key= {nanoid()}
     style={{
     backgroundColor : element.backgroundColor,
     color: element.color}}
     >{element.name}</span>
-})
+  })
 
-export default function App(){
+  const [currentWord, setCurrentWord] = useState("react")
+  const guessWord = currentWord.split("").map(element=>{
+    return <span
+    className="guess-element"
+    key = {nanoid()}>
+      {element.toUpperCase()}
+    </span>
+  })
   return(
     <main>
       <header>
@@ -24,6 +38,9 @@ export default function App(){
       </section>
       <section className="code-langs">
         {languagesElement}
+      </section>
+      <section className="guess-word">
+        {guessWord}
       </section>
 
     </main>
