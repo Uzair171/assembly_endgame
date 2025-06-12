@@ -87,3 +87,20 @@ section.game-status > h2 {
     border-bottom: 1px solid #F9F4DA;
 }
 
+.keyboard{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.alphabet{
+    height: 30px;
+    width: 30px;
+    background-color: #FCBA29;
+    border: 1px solid #D7D7D7;
+    border-radius: 3px;
+    cursor: pointer;
+}
+

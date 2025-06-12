@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid';
 
 export default function App(){
 
+  //coding laguages redering
   const languagesElement = languages.map((element,index)=>{
   return <span 
     className="code-lang"
@@ -17,6 +18,7 @@ export default function App(){
     >{element.name}</span>
   })
 
+  //guess word rendering
   const [currentWord, setCurrentWord] = useState("react")
   const guessWord = currentWord.split("").map(element=>{
     return <span
@@ -25,6 +27,17 @@ export default function App(){
       {element.toUpperCase()}
     </span>
   })
+
+  //keyboard
+  const alphabet = "abcdefghijklmnopqrstuvwxyz"
+  const keyboard = alphabet.split("").map(element=>{
+    return <button 
+    key = {nanoid()}
+    className="alphabet"
+    >{element.toUpperCase()}</button>
+  })
+
+  //main dom element
   return(
     <main>
       <header>
@@ -41,6 +54,9 @@ export default function App(){
       </section>
       <section className="guess-word">
         {guessWord}
+      </section>
+      <section className="keyboard">
+        {keyboard}
       </section>
 
     </main>
