@@ -11,7 +11,7 @@ export default function App(){
   
   //state values
   const [guessed, setGuessed] = useState([])
-  const [currentWord, setCurrentWord] = useState("worldend")
+  const [currentWord, setCurrentWord] = useState("i")
 
   //static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -22,7 +22,7 @@ export default function App(){
   //derived Values
   let wrongGuessCount = guessed.filter(element=> !currentWord.includes(element)).length 
   const isGameOver = wrongGuessCount >= languages.length-1
-  console.log("isGame",isGameOver)
+  console.log("isGame",isGameWon)
 
   //coding laguages redering
   const languagesElement = languages.map((element,index)=>{
@@ -96,10 +96,36 @@ export default function App(){
   // console.log(isGameOver)
   //main dom element
 
-   const gameStatusClass = clsx("game-status", {
+  const gameStatusClass = clsx("game-status", {
         won: isGameWon,
         lost: isGameOver
     })
+
+
+
+  //conditiong to show the game status
+  function renderGameStatus() {   
+      if (!isGameWon && !isGameOver) {
+        return null;
+      }
+
+      if (isGameWon) {
+        return (
+          <>
+            <h2>You win!</h2>
+            <p>Well done! 🎉</p>
+          </>
+        );
+      } else {
+        return (
+          <>
+            <h2>Game over!</h2>
+            <p>You lose! Better start learning Assembly 😭</p>
+          </>
+        );
+      }
+    }
+
   return(
     <main>
       <header>
@@ -109,22 +135,7 @@ export default function App(){
       </header>
 
       <section className={gameStatusClass}>
-        {isGameOver ? (
-                    isGameWon ? (
-                        <>
-                            <h2>You win!</h2>
-                            <p>Well done! 🎉</p>
-                        </>
-                    ) : (
-                            <>
-                                <h2>Game over!</h2>
-                                <p>You lose! Better start learning Assembly 😭</p>
-                            </>
-                        )
-                ) : (
-                        null
-                    )
-                }
+        {renderGameStatus()}
       </section>
       <section className="code-langs">
         {languagesElement}

@@ -41,7 +41,7 @@ header > p {
 
 .game-status {
     visibility: hidden;
-    background-color: #10A95B;
+    
     min-height: 60px;
     display: flex;
     flex-direction: column;
@@ -57,6 +57,7 @@ header > p {
 }
 .won{
     visibility: visible;
+    background-color: #10A95B;
 }
 
 section.game-status > p {
