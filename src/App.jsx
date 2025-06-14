@@ -2,6 +2,7 @@ import { languages} from "../language"
 import { useState } from "react"
 import { nanoid } from 'nanoid';
 import clsx from "clsx";
+import { useEffect } from "react";
 
 
 
@@ -13,26 +14,28 @@ export default function App(){
   const [currentWord, setCurrentWord] = useState("worldend")
 
   //static values
-  const alphabet = "abcdefghijklmnopqrstuvwxyz"
-  const isGameOver = false
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const isGameWon = currentWord.split("").every(element=> guessed.includes(element))
+  
+
 
   //derived Values
   let wrongGuessCount = guessed.filter(element=> !currentWord.includes(element)).length 
-
-  console.log("wrongword",wrongGuessCount)
+  const isGameOver = wrongGuessCount >= languages.length-1
+  console.log("isGame",isGameOver)
 
   //coding laguages redering
   const languagesElement = languages.map((element,index)=>{
 
-  const lostLang = wrongGuessCount > index
-  return <span 
-    className={`code-lang ${lostLang? " lost" : ""}`}
-    key= {nanoid()}
-    style={{
-    backgroundColor : element.backgroundColor,
-    color: element.color}}
-    >{element.name}</span>
-  })
+    const lostLang = wrongGuessCount > index
+    return <span 
+      className={`code-lang ${lostLang? " lost" : ""}`}
+      key= {nanoid()}
+      style={{
+      backgroundColor : element.backgroundColor,
+      color: element.color}}
+      >{element.name}</span>
+    })
 
   //current word rendering
   
@@ -84,9 +87,19 @@ export default function App(){
 
   //isGameover conditionally guessing if the count is up by 8 or not
 
-  
+  // useEffect(() => {
+  //   if (wrongGuessCount >= languages.length) {
+  //     isGameOver = !isGameOver
+  //   }
+  //   }, [wrongGuessCount]);
 
+  // console.log(isGameOver)
   //main dom element
+
+   const gameStatusClass = clsx("game-status", {
+        won: isGameWon,
+        lost: isGameOver
+    })
   return(
     <main>
       <header>
@@ -94,9 +107,24 @@ export default function App(){
         <p>Guess the word within 8 attempts to keep the 
         programming world safe from Assembly!</p>
       </header>
-      <section className="game-status">
-        <h2>You win!</h2>
-        <p>Well done!🎉</p>
+
+      <section className={gameStatusClass}>
+        {isGameOver ? (
+                    isGameWon ? (
+                        <>
+                            <h2>You win!</h2>
+                            <p>Well done! 🎉</p>
+                        </>
+                    ) : (
+                            <>
+                                <h2>Game over!</h2>
+                                <p>You lose! Better start learning Assembly 😭</p>
+                            </>
+                        )
+                ) : (
+                        null
+                    )
+                }
       </section>
       <section className="code-langs">
         {languagesElement}
@@ -110,7 +138,7 @@ export default function App(){
       >
         {keyboard}
       </section>
-      <button className="new-game">New Game</button>
+      {(isGameWon || isGameOver) ?  <button className="new-game">New Game</button>: null}
     </main>
   )
 }
