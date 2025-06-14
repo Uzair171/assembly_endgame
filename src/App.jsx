@@ -1,11 +1,16 @@
 import { languages} from "../language"
 import { useState } from "react"
 import { nanoid } from 'nanoid';
+import clsx from "clsx";
 
 
 
 
 export default function App(){
+  
+  const [guessed, setGuessed] = useState([])
+  const [currentWord, setCurrentWord] = useState("react")
+  const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
   //coding laguages redering
   const languagesElement = languages.map((element,index)=>{
@@ -19,7 +24,7 @@ export default function App(){
   })
 
   //guess word rendering
-  const [currentWord, setCurrentWord] = useState("react")
+  
   const guessWord = currentWord.split("").map(element=>{
     return <span
     className="guess-element"
@@ -29,17 +34,29 @@ export default function App(){
   })
 
   //keyboard
-  const alphabet = "abcdefghijklmnopqrstuvwxyz"
+  
   const keyboard = alphabet.split("").map(element=>{
-    return <button 
+    //funciton so if a user click on the right element the button turns green or red if false
+    const isGuessed = guessed.includes(element)
+    const isCorrect = isGuessed && currentWord.includes(element)
+    const isWrong = isGuessed && !currentWord.includes(element)
+    const className = clsx("alphabet",{
+      correct : isCorrect,
+      wrong: isWrong
+    })
+    
+
+    return (<button 
     key = {nanoid()}
-    className="alphabet"
+    className={className}
+    value={element}
     onClick={()=>onKeyDown(element)}
-    >{element.toUpperCase()}</button>
+    >{element.toUpperCase()}</button>)
+    
   })
 
   //storing guessed letter
-  const [guessed, setGuessed] = useState([])
+  
   function onKeyDown(value){
     setGuessed(prevValue=>{
       if(!prevValue.includes(value)){
@@ -49,11 +66,13 @@ export default function App(){
         return prevValue
       }
     })
+    return guessed
+    
   }
  console.log(guessed)
 
 
-
+  
 
   //main dom element
   return(
@@ -73,7 +92,10 @@ export default function App(){
       <section className="guess-word">
         {guessWord}
       </section>
-      <section className="keyboard">
+      <section 
+        className="keyboard"
+
+      >
         {keyboard}
       </section>
       <button className="new-game">New Game</button>

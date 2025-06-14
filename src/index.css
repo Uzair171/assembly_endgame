@@ -103,6 +103,13 @@ section.game-status > h2 {
     border-radius: 3px;
     cursor: pointer;
 }
+.correct{
+    background-color: #08f214;
+}
+
+.wrong{
+    background-color: #f20808 ;
+}
 
 .new-game {
     background-color: #11B5E5;
