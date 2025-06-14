@@ -8,14 +8,25 @@ import clsx from "clsx";
 
 export default function App(){
   
+  //state values
   const [guessed, setGuessed] = useState([])
-  const [currentWord, setCurrentWord] = useState("react")
+  const [currentWord, setCurrentWord] = useState("worldend")
+
+  //static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz"
+  const isGameOver = false
+
+  //derived Values
+  let wrongGuessCount = guessed.filter(element=> !currentWord.includes(element)).length 
+
+  console.log("wrongword",wrongGuessCount)
 
   //coding laguages redering
   const languagesElement = languages.map((element,index)=>{
+
+  const lostLang = wrongGuessCount > index
   return <span 
-    className="code-lang"
+    className={`code-lang ${lostLang? " lost" : ""}`}
     key= {nanoid()}
     style={{
     backgroundColor : element.backgroundColor,
@@ -23,14 +34,14 @@ export default function App(){
     >{element.name}</span>
   })
 
-  //guess word rendering
+  //current word rendering
   
   const guessWord = currentWord.split("").map(element=>{
-    return <span
+    return (<span
     className="guess-element"
     key = {nanoid()}>
-      {element.toUpperCase()}
-    </span>
+      {guessed.includes(element) ? element.toUpperCase() : ""}
+    </span>)
   })
 
   //keyboard
@@ -71,6 +82,7 @@ export default function App(){
   }
  console.log(guessed)
 
+  //isGameover conditionally guessing if the count is up by 8 or not
 
   
 

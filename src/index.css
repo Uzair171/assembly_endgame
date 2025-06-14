@@ -62,12 +62,29 @@ section.game-status > h2 {
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.7rem;
+    
 
 }
 
 .code-lang{
     padding: 1rem 2rem;
     border-radius: 1rem;
+    position: relative;
+}
+
+.code-lang.lost::before {
+    content: "💀";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    font-size: 0.85rem;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .guess-word{
